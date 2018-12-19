@@ -11,8 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Download for HTML files.
@@ -20,12 +19,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Asparagus 2016-08-27
  *
  */
+@Log4j
 public class HTMLDownloader extends Downloader {
-
-	/**
-	 * The Class Logger.
-	 */
-	private final static Log LOG = LogFactory.getLog(HTMLDownloader.class);
 
 	/**
 	 * Accepted File Extend.
@@ -131,7 +126,7 @@ public class HTMLDownloader extends Downloader {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		LOG.warn("URLDecode: " + path);
+		log.warn("URLDecode: " + path);
 		return path;
 	}
 }

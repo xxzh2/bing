@@ -8,12 +8,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import lombok.extern.log4j.Log4j;
 import net.crawl.sum.Localization;
 import net.crawl.sum.document.PrasedDocument;
 
@@ -23,9 +22,8 @@ import net.crawl.sum.document.PrasedDocument;
  * @author Asparagus 2016-08-26
  *
  */
+@Log4j
 public class BingPicture {
-
-	public static Log log = LogFactory.getLog(BingPicture.class);
 
 	public BingPicture() {
 	}

@@ -7,11 +7,10 @@ package net.crawl.dual.bing;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 public class ImageDownloader extends Downloader {
-	final static Log log = LogFactory.getLog(ImageDownloader.class);
 
 	final static String[] FILE_TYPE = { ".png", ".jpg" };
 
@@ -27,6 +26,7 @@ public class ImageDownloader extends Downloader {
 	public String getLocalDir(String pic) {
 
 		String basePath = this.getLocalDefault();
+		log.debug("getLocalDefault basePath" + basePath);
 		if (pic == null) {
 			return null;
 
