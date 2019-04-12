@@ -1,0 +1,21 @@
+package com.ginkgo.crawl.test;
+
+import org.junit.Test;
+
+import com.ginkgo.crawl.dual.bing.BingPicture;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class TestBing {
+
+	@Test
+	public void main() {
+		BingPicture pic = new BingPicture();
+		// 设置URL
+		pic.setUrl("https://cn.bing.com");
+		// 搜索并下载
+		pic.download();
+	}
+
+}
