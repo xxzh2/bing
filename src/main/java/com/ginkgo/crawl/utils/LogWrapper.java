@@ -3,6 +3,7 @@ package com.ginkgo.crawl.utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+@Deprecated
 public class LogWrapper {
 
 	public static Log getLog(Class<?> clazz) {

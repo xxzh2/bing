@@ -63,12 +63,12 @@ public class BingPicture {
 					String s = as[i];
 					if (s.contains(key)) {
 
-						final String ragex = "[^\"';]*/[^\"';]*";
+						final String ragex = "[^\"';]*/[^\"';]*?.jpg";
 						Pattern p = Pattern.compile(ragex);
 						Matcher m = p.matcher(s);
 						while (m.find()) {
 							String _s = m.group();
-							// log.debug(_s);
+							log.debug("FILE: " + _s);
 							if (_s.contains(key)) {
 								picPath.add(_s.replace("\\", ""));
 							}
@@ -113,7 +113,7 @@ public class BingPicture {
 			log.debug(String.format("Image URL: %s", pic));
 			String filePath = new ImageDownloader().getRealPath(pic);
 
-			// log.debug(filePath);
+			log.debug("filePath->" + filePath);
 			Localization fc = new Localization(filePath, url);
 			fc.localize();
 		}

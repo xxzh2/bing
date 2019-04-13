@@ -5,7 +5,11 @@
  */
 package com.ginkgo.crawl.dual.bing;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.extern.log4j.Log4j;
 
@@ -26,11 +30,11 @@ public class ImageDownloader extends Downloader {
 	public String getLocalDir(String pic) {
 
 		String basePath = this.getLocalDefault();
-		log.debug("getLocalDefault basePath" + basePath);
+		log.debug("getLocalDefault basePath->" + basePath);
 		if (pic == null) {
 			return null;
 
-		} else if (pic.contains("*") || pic.contains(":") || pic.contains("/")) {
+		} else if (pic.contains("*") || pic.contains("?") || pic.contains(":") || pic.contains("/")) {
 			String fileExt = null;
 			if (pic.contains(".")) {
 				fileExt = pic.substring(pic.lastIndexOf("."));
@@ -42,15 +46,33 @@ public class ImageDownloader extends Downloader {
 				fileExt = FILE_TYPE[0];
 			}
 			String fname = pic.substring(pic.lastIndexOf("/"));
-
-			return new StringBuilder(String.valueOf(basePath)).append(fname).toString();
+			fname = getRegularFlileName(fname);
+			log.info("fileName->" + fname);
+			return new File(String.valueOf(basePath), fname).getAbsolutePath();
 
 		} else {
 			String str[] = pic.split("/");
 			String name = str[str.length - 1];
-
-			return new StringBuilder(String.valueOf(basePath)).append(name).toString();
+			name = getRegularFlileName(name);
+			return new File(String.valueOf(basePath), name).getAbsolutePath();
 		}
+	}
+
+	private String getRegularFlileName(String name) {
+		List<String> strList = new ArrayList<String>();
+		String str = name + "";
+		log.info(str);
+		String ragex = "[^\";\\=]+.jpg";
+		Pattern p = Pattern.compile(ragex);
+		Matcher m = p.matcher(str);
+		while (m.find()) {
+			String s = m.group();
+			if (s.length() > 0) {
+				strList.add(s);
+				log.debug("-->" + s + "|");
+			}
+		}
+		return strList.get(0);
 	}
 
 	/**

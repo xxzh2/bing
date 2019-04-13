@@ -14,12 +14,12 @@ public abstract class Downloader implements Duplicate {
 		Properties prop = null;
 		try {
 			prop = load();
-			downloaderDefault = prop.getProperty("downloader.default");
+			downloaderDefault = prop.getProperty("downloader.default", System.getProperty("user.dir"));
 			// System.out.println("Default: " + downloaderDefault);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// 自定义目录
+		//
 		return downloaderDefault == null ? System.getProperty("user.home") : downloaderDefault;
 	}
 

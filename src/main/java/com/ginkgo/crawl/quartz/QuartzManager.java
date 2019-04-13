@@ -13,6 +13,7 @@ import org.quartz.impl.StdSchedulerFactory;
  * {@link quartz}
  *
  */
+@Deprecated
 public class QuartzManager {
     /**
      * Default Logger.

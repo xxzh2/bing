@@ -9,8 +9,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import com.ginkgo.crawl.utils.LogWrapper;
 
 /**
  * Copy remote File to local Disk.
@@ -19,7 +19,7 @@ import com.ginkgo.crawl.utils.LogWrapper;
  *
  */
 public class Localization {
-	final static Log log = LogWrapper.getLog(Localization.class);
+	final static Log log = LogFactory.getLog(Localization.class);
 
 	public Localization(String path, URL url) {
 		destPath = path;
@@ -42,7 +42,7 @@ public class Localization {
 			local = new File(destPath);
 		if (local != null && !local.exists()) {
 			try {
-				LogWrapper._i(log, "%s", local.getPath());
+				log.info(String.format("%s", local.getPath()));
 				local.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -62,7 +62,7 @@ public class Localization {
 			return false;
 		}
 		if (!local.exists()) {
-			LogWrapper._e(log, String.format("Create  parent director: %", local.getParentFile().getPath()));
+			log.info(String.format("Create  parent director: %", local.getParentFile().getPath()));
 			local.getParentFile().mkdirs();
 		}
 		(new Thread() {

@@ -6,6 +6,11 @@ import com.ginkgo.crawl.dual.bing.BingPicture;
 
 import lombok.extern.log4j.Log4j;
 
+/**
+ * Bing Wallpaper Download Tests
+ * @author Think
+ *
+ */
 @Log4j
 public class TestBing {
 
