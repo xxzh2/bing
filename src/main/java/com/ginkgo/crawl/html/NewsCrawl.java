@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.ginkgo.crawl.dual.bing.HTMLDownloader;
+import com.ginkgo.bing.HTMLDownloader;
 import com.ginkgo.crawl.sum.FixedList;
 import com.ginkgo.crawl.sum.Localization;
 import com.ginkgo.crawl.sum.LocalizationHTML;

@@ -1,5 +1,6 @@
 package com.ginkgo.crawl.test;
 
+import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,7 @@ public class RegTest {
 		String ragex = "[^\";]*";
 		Pattern p = Pattern.compile(ragex);
 		Matcher m = p.matcher(str);
+	
 		while (m.find()) {
 			String s = m.group();
 			if (s.length() > 0)
@@ -40,7 +42,7 @@ public class RegTest {
 		while (m.find()) {
 			String s = m.group();
 			if (s.length() > 0)
-				log.debug("-->" + s + "|");
+				log.debug(MessageFormat.format("-->{0} '{0}' '{' '}' |", s));
 		}
 	}
 

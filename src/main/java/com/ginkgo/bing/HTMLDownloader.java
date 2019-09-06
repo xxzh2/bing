@@ -3,7 +3,7 @@
  * download file for given URL or content.<br>
  * @author Asparagus
  */
-package com.ginkgo.crawl.dual.bing;
+package com.ginkgo.bing;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -25,7 +25,11 @@ public class HTMLDownloader extends Downloader {
 	/**
 	 * Accepted File Extend.
 	 */
-	public final static String[] fileType = { ".htm", ".html" };
+	public final static String[] FILE_TYPE = { ".htm", ".html" };
+
+	public final static String SEPARATOR = System.getProperty("file.separator");
+
+	public final static String ARCHIVED_NAME = "html-archive";
 
 	/**
 	 * Default Constructor
@@ -33,31 +37,30 @@ public class HTMLDownloader extends Downloader {
 	public HTMLDownloader() {
 	}
 
+	@Deprecated
+	public String getLocalDir(String pic) {
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Get file path for new file with extend.
 	 *
 	 * @return filePath
 	 */
-	@Override
-	public String getLocalDir(String pic) {
-
+	public String getArchivedDirectory(String pic) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
 		String dateStr = sdf.format(new Date());
-		// log.debug(path);
-
-		final String SEPARATOR = System.getProperty("file.separator");
-
-		String filePath = (new StringBuilder()).append(SEPARATOR)//
-				.append("html-archive").append(SEPARATOR).toString();
-
-		// current file name or path is not valid. then given the specified
-		// name.
+		StringBuilder filePath = new StringBuilder();//
+		filePath.append(SEPARATOR)//
+				.append(ARCHIVED_NAME)//
+				.append(SEPARATOR).toString();
+		// current file name or path is not valid.
+		// then given the specified name.
 		if (pic.contains("*") || pic.contains(":") || pic.contains("/")) {
 			String name = dateStr + ".html";
-			filePath = (new StringBuilder(String.valueOf(filePath)))//
-					.append(dateStr).append(SEPARATOR).toString();
-			return (new StringBuilder(String.valueOf(filePath))).append(name).toString();
-
+			filePath.append(dateStr)//
+					.append(SEPARATOR)//
+					.append(name);
 		} else {
 			String name = "unnamed";
 			if (pic != null && pic.indexOf("/") > 0) {
@@ -66,11 +69,11 @@ public class HTMLDownloader extends Downloader {
 			} else if (pic != null && pic.indexOf(".") < 0) {
 				name += ".html";
 			}
-
-			filePath = (new StringBuilder(String.valueOf(filePath))).append(dateStr).append(SEPARATOR).toString();
-
-			return (new StringBuilder(String.valueOf(filePath))).append(name).toString();
+			filePath.append(dateStr)//
+					.append(SEPARATOR)//
+					.append(name);
 		}
+		return filePath.toString();
 	}
 
 	public String getLocalFileName(String pic) {
@@ -81,10 +84,9 @@ public class HTMLDownloader extends Downloader {
 		} else if (pic.contains("*") || pic.contains(":") || pic.contains("/")) {
 			int lastIndex = pic.lastIndexOf(".");
 			String name = pic.substring(lastIndex);
-			return (new StringBuilder(String.valueOf(name))).toString();
-
+			return name;
 		} else {
-			return (new StringBuilder(String.valueOf(pic))).toString();
+			return pic;
 		}
 	}
 
@@ -122,7 +124,7 @@ public class HTMLDownloader extends Downloader {
 		String path = null;
 		try {
 			new URLDecoder();
-			path = URLDecoder.decode(basePath + this.getLocalDir(pic), "utf-8");
+			path = URLDecoder.decode(basePath + this.getArchivedDirectory(pic), "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

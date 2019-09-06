@@ -1,4 +1,4 @@
-package com.ginkgo.crawl.servlet;
+package com.ginkgo.bing.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ginkgo.crawl.quartz.QuartzManager;
+import com.ginkgo.crawl.timer.QuartzManager;
 
 /**
  * Servlet implementation class TestServlet

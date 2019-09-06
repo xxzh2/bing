@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.ginkgo.crawl.dual.bing;
+package com.ginkgo.crawl.io;
 
 import java.io.File;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.ginkgo.crawl.test;
 
 import org.junit.Test;
 
-import com.ginkgo.crawl.dual.bing.HTMLDownloader;
+import com.ginkgo.bing.HTMLDownloader;
 
 import lombok.extern.log4j.Log4j;
 

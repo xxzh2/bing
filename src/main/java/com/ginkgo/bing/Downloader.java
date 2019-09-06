@@ -1,7 +1,9 @@
-package com.ginkgo.crawl.dual.bing;
+package com.ginkgo.bing;
 
 import java.io.IOException;
 import java.util.Properties;
+
+import com.ginkgo.crawl.io.Duplicate;
 
 public abstract class Downloader implements Duplicate {
 	/**

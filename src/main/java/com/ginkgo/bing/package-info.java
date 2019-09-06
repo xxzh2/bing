@@ -5,4 +5,4 @@
  * @author Asparagus
  *
  */
-package com.ginkgo.crawl.dual.bing;
+package com.ginkgo.bing;

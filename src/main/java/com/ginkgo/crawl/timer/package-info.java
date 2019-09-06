@@ -5,4 +5,4 @@
  * @author Asparagus
  *
  */
-package com.ginkgo.crawl.quartz;
+package com.ginkgo.crawl.timer;

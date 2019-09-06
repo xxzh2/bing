@@ -3,7 +3,7 @@
  * download file for given URL or content.<br>
  * @author Asparagus
  */
-package com.ginkgo.crawl.dual.bing;
+package com.ginkgo.bing;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class ImageDownloader extends Downloader {
 
 	final static String[] FILE_TYPE = { ".png", ".jpg" };
 
-	final static String wallpaper = "Bing-wallpaper";
+	final static String WALLPAPER = "Bing-wallpaper";
 
 	public ImageDownloader() {
 	}
@@ -48,13 +48,13 @@ public class ImageDownloader extends Downloader {
 			String fname = pic.substring(pic.lastIndexOf("/"));
 			fname = getRegularFlileName(fname);
 			log.info("fileName->" + fname);
-			return new File(String.valueOf(basePath), fname).getAbsolutePath();
+			return new File(basePath, fname).getAbsolutePath();
 
 		} else {
 			String str[] = pic.split("/");
 			String name = str[str.length - 1];
 			name = getRegularFlileName(name);
-			return new File(String.valueOf(basePath), name).getAbsolutePath();
+			return new File(basePath, name).getAbsolutePath();
 		}
 	}
 
@@ -89,10 +89,10 @@ public class ImageDownloader extends Downloader {
 		} else if (pic.contains("*") || pic.contains(":") || pic.contains("/")) {
 			int lastIndex = pic.lastIndexOf(".");
 			String name = pic.substring(lastIndex);
-			return (new StringBuilder(String.valueOf(name))).toString();
+			return name;
 
 		} else {
-			return (new StringBuilder(String.valueOf(pic))).toString();
+			return pic;
 		}
 	}
 

@@ -6,7 +6,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.ginkgo.crawl.dual.bing.BingPicture;
+import com.ginkgo.bing.BingPicture;
 import com.ginkgo.crawl.html.NewsCrawl;
 
 public class CrawlJob implements Job{

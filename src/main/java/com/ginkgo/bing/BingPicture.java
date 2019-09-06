@@ -1,4 +1,4 @@
-package com.ginkgo.crawl.dual.bing;
+package com.ginkgo.bing;
 
 import java.net.MalformedURLException;
 import java.net.URL;

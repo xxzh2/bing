@@ -5,4 +5,4 @@
  * @author Asparagus
  *
  */
-package com.ginkgo.crawl.servlet;
+package com.ginkgo.bing.servlet;

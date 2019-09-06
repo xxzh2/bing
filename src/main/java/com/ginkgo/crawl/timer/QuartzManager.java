@@ -1,4 +1,4 @@
-package com.ginkgo.crawl.quartz;
+package com.ginkgo.crawl.timer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

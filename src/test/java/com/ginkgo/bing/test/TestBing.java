@@ -1,8 +1,8 @@
-package com.ginkgo.crawl.test;
+package com.ginkgo.bing.test;
 
 import org.junit.Test;
 
-import com.ginkgo.crawl.dual.bing.BingPicture;
+import com.ginkgo.bing.BingPicture;
 
 import lombok.extern.log4j.Log4j;
 
