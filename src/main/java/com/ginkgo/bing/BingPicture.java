@@ -2,12 +2,15 @@ package com.ginkgo.bing;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,14 +22,25 @@ import lombok.extern.log4j.Log4j;
 
 /**
  * Download Bing Background Image.
- *
+ * 
+ * @version {@value #ver}
  * @author Asparagus 2016-08-26
  *
  */
 @Log4j
 public class BingPicture {
+	/**
+	 * Version: {@value #ver}
+	 */
+	static final double ver = 1.0;
+	private URL url;
+	private String[] exts = new String[] { ".jpg", ".png" };
 
 	public BingPicture() {
+	}
+
+	public BingPicture( String ... ext) {
+		exts = (String[]) ArrayUtils.addAll(exts, ext);
 	}
 
 	public void setUrl(String arg0) {
@@ -47,13 +61,13 @@ public class BingPicture {
 		log.debug("-->");
 	}
 
-	private List<String> getPicByKey(String key) {
+	private List<String> getPicByKey(String extendsKey) {
 		List<String> picPath = new ArrayList<String>();
 		PrasedDocument doc = new PrasedDocument(this.url);
 		Elements elements = doc.getElementsByTag("script");
 		for (Iterator<?> iterator = elements.iterator(); iterator.hasNext();) {
 			Element e = (Element) iterator.next();
-			if (e.html().contains(key)) {
+			if (e.html().contains(extendsKey)) {
 				String str = e.html();
 				// log.debug("sss: " + str);
 				String st[] = str.split(",");
@@ -61,15 +75,14 @@ public class BingPicture {
 				int j = (as = st).length;
 				for (int i = 0; i < j; i++) {
 					String s = as[i];
-					if (s.contains(key)) {
-
-						final String ragex = "[^\"';]*/[^\"';]*?.jpg";
-						Pattern p = Pattern.compile(ragex);
+					if (s.contains(extendsKey)) {
+						final String regexp = "[^\"';]*/[^\"';]*?" + extendsKey;
+						Pattern p = Pattern.compile(regexp);
 						Matcher m = p.matcher(s);
 						while (m.find()) {
 							String _s = m.group();
 							log.debug("FILE: " + _s);
-							if (_s.contains(key)) {
+							if (_s.contains(extendsKey)) {
 								picPath.add(_s.replace("\\", ""));
 							}
 						}
@@ -80,44 +93,53 @@ public class BingPicture {
 		return picPath;
 	}
 
-	private URL[] getPicRealPath() {
-		List<?> list = this.getPicByKey(".jpg");
+	public Optional<URL[]> getPicRealPath() {
+		List<String> list = new ArrayList<String>();
+		if (exts == null) {
+			log.warn("No ext is defined, then return.");
+			return Optional.ofNullable(null);
+		}
+		for (String ext : exts) {
+			list.addAll(this.getPicByKey(ext));
+		}
+		URL[] url = null;
 		if (list != null) {
 			log.info("jpg file num: " + list.size());
+			url = list.stream().filter(item -> {
+				String s = item.toString();
+				return !s.contains("http:");
+			}).map(item -> {
+				URL u = null;
+				String s = item.toString();
+				log.info("jpg file s: " + s);
+				try {
+					s = MessageFormat.format("{0}{1}", "http://cn.bing.com", s);
+					u = new URL(s);
+				} catch (MalformedURLException e) {
+					u = null;
+					e.printStackTrace();
+				} finally {
+					// --
+				}
+				return u;
+			}).toArray(URL[]::new);
 		}
-		URL urls[] = new URL[list.size()];
-		int i = 0;
-		for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
-			String s = (String) iterator.next();
-			log.debug("jpg file s: " + s);
-			try {
-				if (!s.contains("http:"))
-					s = (new StringBuilder("http://cn.bing.com")).append(s).toString();
-				urls[i] = new URL(s);
-				i++;
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-		}
+		return Optional.ofNullable(url);
 
-		return urls;
 	}
 
 	public void download() {
-		URL urls[] = this.getPicRealPath();
-		URL aurl[];
-		int j = (aurl = urls).length;
-		for (int i = 0; i < j; i++) {
-			URL url = aurl[i];
-			String pic = url.toString();
-			log.debug(String.format("Image URL: %s", pic));
-			String filePath = new ImageDownloader().getRealPath(pic);
-
-			log.debug("filePath->" + filePath);
-			Localization fc = new Localization(filePath, url);
-			fc.localize();
-		}
+		Optional<URL[]> imgUrls = this.getPicRealPath();
+		imgUrls.ifPresent(urls -> {
+			for (URL u : urls) {
+				String pic = u.toString();
+				log.debug(String.format("Image URL: %s", pic));
+				String filePath = new ImageDownloader().getRealPath(pic);
+				log.debug("filePath->" + filePath);
+				Localization fc = new Localization(filePath, u);
+				fc.localize();
+			}
+		});
 	}
 
-	private URL url;
 }

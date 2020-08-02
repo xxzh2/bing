@@ -47,7 +47,7 @@ public class ImageDownloader extends Downloader {
 			}
 			String fname = pic.substring(pic.lastIndexOf("/"));
 			fname = getRegularFlileName(fname);
-			log.info("fileName->" + fname);
+			log.info("fileName =\t" + fname);
 			return new File(basePath, fname).getAbsolutePath();
 
 		} else {

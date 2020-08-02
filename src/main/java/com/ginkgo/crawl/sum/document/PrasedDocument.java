@@ -14,12 +14,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * Parse Document.
- *
+ * Parsed Document.
+ * {@value #log}
  * @author Asparagus
  *
  */
 public class PrasedDocument {
+	
+	static final Log log = LogFactory.getLog("PrasedDocument");
+	
+	private Document doc;
+	private String url;
+	private String charset;
 
 	public PrasedDocument(URL arg0) {
 		doc = null;
@@ -104,10 +110,5 @@ public class PrasedDocument {
 		html = doc.html();
 		return html;
 	}
-
-	static final Log log = LogFactory.getLog("PrasedDocument");
-	private Document doc;
-	private String url;
-	private String charset;
 
 }

@@ -11,7 +11,6 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * Copy remote File to local Disk.
  *
@@ -42,7 +41,10 @@ public class Localization {
 			local = new File(destPath);
 		if (local != null && !local.exists()) {
 			try {
-				log.info(String.format("%s", local.getPath()));
+				if (!local.exists()) {
+					local.getParentFile().mkdirs();
+				}
+				log.debug(String.format("%s", local.getPath()));
 				local.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
