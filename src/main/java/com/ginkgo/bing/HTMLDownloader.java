@@ -25,7 +25,7 @@ public class HTMLDownloader extends Downloader {
 	/**
 	 * Accepted File Extend.
 	 */
-	public final static String[] FILE_TYPE = { ".htm", ".html" };
+	protected final static String[] FILE_TYPE = { ".htm", ".html" };
 
 	public final static String SEPARATOR = System.getProperty("file.separator");
 
@@ -126,7 +126,7 @@ public class HTMLDownloader extends Downloader {
 			new URLDecoder();
 			path = URLDecoder.decode(basePath + this.getArchivedDirectory(pic), "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		log.warn("URLDecode: " + path);
 		return path;

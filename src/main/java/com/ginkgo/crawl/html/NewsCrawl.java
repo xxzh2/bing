@@ -22,123 +22,121 @@ import com.ginkgo.crawl.sum.LocalizationHTML;
 import com.ginkgo.crawl.sum.document.PrasedDocument;
 
 /**
- * News Crawl.
- * 网络爬虫，抓取新闻
+ * News Crawl. 网络爬虫，抓取新闻
  *
  * @author Asparagus
  *
  */
 public class NewsCrawl {
 
-    public static final Log log = LogFactory.getLog(NewsCrawl.class);
+	public static final Log log = LogFactory.getLog(NewsCrawl.class);
 
-    public NewsCrawl() {
-    }
+	public NewsCrawl() {
+	}
 
-    /**
-     * Set net resources URL.
-     *
-     * @param url
-     *            String
-     */
-    public void setUrl(String url) {
-        try {
-            this.url = new URL(url);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-            this.url = null;
-        }
-    }
+	/**
+	 * Set net resources URL.
+	 *
+	 * @param url String
+	 */
+	public void setUrl(String url) {
+		try {
+			this.url = new URL(url);
+		} catch (MalformedURLException e) {
+			log.error(e);
+			this.url = null;
+		}
+	}
 
-    public URL getUrl() {
-        return this.url;
-    }
+	public URL getUrl() {
+		return this.url;
+	}
 
-    public String getKeywords() {
-        return this.keywords;
-    }
+	public String getKeywords() {
+		return this.keywords;
+	}
 
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
 
-    public void searchPathByTag(Document doc, String tagName) {
-        log.debug(doc.getElementsContainingText(".jpg").html());
-    }
+	public void searchPathByTag(Document doc, String tagName) {
+		log.debug(doc.getElementsContainingText(".jpg").html());
+	}
 
-    private List<String> getPicByKey(String key) {
-        String dateStr0 = new SimpleDateFormat("yyy-MM-dd").format(new Date());
-        String dateStr1 = new SimpleDateFormat("yyyMMdd").format(new Date());
+	private List<String> getPicByKey(String key) {
+		String dateStr0 = new SimpleDateFormat("yyy-MM-dd").format(new Date());
+		String dateStr1 = new SimpleDateFormat("yyyMMdd").format(new Date());
 
-        List<String> picPath = new ArrayList<String>();
-        PrasedDocument doc = new PrasedDocument(this.url);
-        Elements elements = doc.getElementsByTag("a");
-        log.debug("found target tag Elements: " + elements.size());
-        log.debug("found keywords: " + dateStr0 + ", " + dateStr1 + ", " + key);
-        for (Iterator<Element> iterator = elements.iterator(); iterator.hasNext();) {
-            Element e = iterator.next();
-            if (e.html().contains(key) //
-                    && !e.html().contains("<img") //
-                    && e.outerHtml().contains("target")//
-                    && (e.outerHtml().contains("class") || e.outerHtml().contains("title")) //
-                    && (e.outerHtml().contains(dateStr0) || e.outerHtml().contains(dateStr1))) {
-                String str = e.outerHtml();
-                log.debug("found tag: " + str);
-                picPath.add(str);
-            }
-        }
+		List<String> picPath = new ArrayList<String>();
+		PrasedDocument doc = new PrasedDocument(this.url);
+		Elements elements = doc.getElementsByTag("a");
+		log.debug("found target tag Elements: " + elements.size());
+		log.debug("found keywords: " + dateStr0 + ", " + dateStr1 + ", " + key);
+		for (Iterator<Element> iterator = elements.iterator(); iterator.hasNext();) {
+			Element e = iterator.next();
+			if (e.html().contains(key) //
+					&& !e.html().contains("<img") //
+					&& e.outerHtml().contains("target")//
+					&& (e.outerHtml().contains("class") || e.outerHtml().contains("title")) //
+					&& (e.outerHtml().contains(dateStr0) || e.outerHtml().contains(dateStr1))) {
+				String str = e.outerHtml();
+				log.debug("found tag: " + str);
+				picPath.add(str);
+			}
+		}
 
-        return picPath;
-    }
+		return picPath;
+	}
 
-    /**
-     * Filter keywords
-     *
-     * @return urls FixedList<String>
-     */
-    private FixedList<String> getKeyHTML() {
-        List<String> list = this.getPicByKey(this.keywords);
-        if (list != null) {
-            log.info("match key num: " + list.size());
-        }
-        FixedList<String> urls = new FixedList<String>(10);
-        for (Iterator<String> iterator = list.iterator(); iterator.hasNext();) {
-            String s = iterator.next();
-            log.debug("jpg file s: " + s);
-            try {
-                urls.add(s);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return urls;
-    }
+	/**
+	 * Filter keywords
+	 *
+	 * @return urls FixedList<String>
+	 */
+	private FixedList<String> getKeyHTML() {
+		List<String> list = this.getPicByKey(this.keywords);
+		if (list != null) {
+			log.info("match key num: " + list.size());
+		}
+		FixedList<String> urls = new FixedList<String>(10);
+		for (Iterator<String> iterator = list.iterator(); iterator.hasNext();) {
+			String s = iterator.next();
+			log.debug("jpg file s: " + s);
+			try {
+				urls.add(s);
+			} catch (Exception e) {
+				log.error(e);
+			}
+		}
+		return urls;
+	}
 
-    /**
-     * write file to local disk.
-     */
-    public int download() {
-        int fc = 0;
-        FixedList<String> holder = this.getKeyHTML();
-        for (String text : holder) {
-            String txtStr = text.toString();
-            log.debug((new StringBuilder("PIC:")).append(txtStr).toString());
-            String filePath = new HTMLDownloader().getRealPath(txtStr);
-            log.error("filePath: " + filePath);
-            Localization _f = new LocalizationHTML(new File(filePath), text);
-            _f.localize();
-            fc++;
-        }
-        return fc;
-    }
+	/**
+	 * write file to local disk.
+	 */
+	public int download() {
+		int fc = 0;
+		FixedList<String> holder = this.getKeyHTML();
+		for (String text : holder) {
+			String txtStr = text.toString();
+			log.debug((new StringBuilder("PIC:")).append(txtStr).toString());
+			String filePath = new HTMLDownloader().getRealPath(txtStr);
+			log.error("filePath: " + filePath);
+			Localization _f = new LocalizationHTML(new File(filePath), text);
+			_f.localize();
+			fc++;
+		}
+		return fc;
+	}
 
-    /**
-     * Net Resources URL.
-     */
-    private URL url;
+	/**
+	 * Net Resources URL.
+	 */
+	private URL url;
 
-    /**
-     * Crawl filter keywords.
-     */
-    private String keywords;
+	/**
+	 * Crawl filter keywords.
+	 */
+	private String keywords;
 }

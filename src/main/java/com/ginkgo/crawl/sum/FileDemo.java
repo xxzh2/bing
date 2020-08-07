@@ -8,22 +8,24 @@ package com.ginkgo.crawl.sum;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import lombok.extern.log4j.Log4j;
+
 // Referenced classes of package net.suman:
 //            Localization
-
+@Log4j
 public class FileDemo {
 
-    public FileDemo() {
-    }
+	public FileDemo() {
+	}
 
-    public static void main(String args[]) {
-        try {
-            URL url = new URL("http://s.cn.bing.net/az/hprichbg/rb/JianPavilionUSTC_ZH-CN14581650358_1366x768.jpg");
-            String fl = "C:\\Users\\Larn\\Desktop\\JianPavilionUSTC_ZH-CN14581650358_1366x768.jpg";
-            Localization fc = new Localization(fl, url);
-            fc.localize();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
+	public static void main(String args[]) {
+		try {
+			URL url = new URL("http://s.cn.bing.net/az/hprichbg/rb/JianPavilionUSTC_ZH-CN14581650358_1366x768.jpg");
+			String fl = "C:\\Users\\Larn\\Desktop\\JianPavilionUSTC_ZH-CN14581650358_1366x768.jpg";
+			Localization fc = new Localization(fl, url);
+			fc.localize();
+		} catch (MalformedURLException e) {
+			log.error(e);
+		}
+	}
 }

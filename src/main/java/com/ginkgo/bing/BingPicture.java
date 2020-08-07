@@ -46,8 +46,8 @@ public class BingPicture {
 	public void setUrl(String arg0) {
 		try {
 			this.url = new URL(arg0);
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
+		} catch (MalformedURLException e) {
+			log.error(e);
 			this.url = null;
 		}
 	}
@@ -117,7 +117,7 @@ public class BingPicture {
 					u = new URL(s);
 				} catch (MalformedURLException e) {
 					u = null;
-					e.printStackTrace();
+					log.error(e);
 				} finally {
 					// --
 				}

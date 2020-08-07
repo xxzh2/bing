@@ -24,7 +24,7 @@ public abstract class Downloader implements Duplicate {
 			downloaderDefault = prop.getProperty("downloader.default", System.getProperty("user.dir"));
 			// System.out.println("Default: " + downloaderDefault);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		//
 		return downloaderDefault == null ? System.getProperty("user.home") : downloaderDefault;

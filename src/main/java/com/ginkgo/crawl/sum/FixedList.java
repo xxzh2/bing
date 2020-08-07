@@ -8,7 +8,7 @@ public class FixedList<T> extends ArrayList<T> {
      * serialVersionUID
      */
     private static final long serialVersionUID = 5619134466752217726L;
-    public int fixedsize = 0;
+    private int fixedsize = 0;
 
     public FixedList(int fixed){
         this.fixedsize = fixed;

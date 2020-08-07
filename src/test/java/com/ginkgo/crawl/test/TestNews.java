@@ -21,7 +21,7 @@ public class TestNews {
 			else
 				log.warn("keywords.properties not exists.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		String key = prop.getProperty("key", "");
 		String url = prop.getProperty("crawl_url", "");

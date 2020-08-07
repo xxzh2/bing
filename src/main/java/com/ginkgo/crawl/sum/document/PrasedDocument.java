@@ -75,7 +75,7 @@ public class PrasedDocument {
 			_httpequiv = doc.getElementsByAttribute("http-equiv").attr("content");
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		log.info(new StringBuilder().append("charset:" + _charset)//
 				.append("response:" + _response)//
