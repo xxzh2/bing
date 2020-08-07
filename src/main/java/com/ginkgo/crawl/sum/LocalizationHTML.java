@@ -15,63 +15,63 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class LocalizationHTML extends Localization {
-    public LocalizationHTML(File file, String string) {
-        super(file, null);
-        local = file;
-        str = string;
+	public LocalizationHTML(File file, String string) {
+		super(file, null);
+		local = file;
+		str = string;
 
-    }
+	}
 
-    public String getStr() {
-        return str;
-    }
+	public String getStr() {
+		return str;
+	}
 
-    public void setStr(String str) {
-        this.str = str;
-    }
+	public void setStr(String str) {
+		this.str = str;
+	}
 
-    final static Log log = LogFactory.getLog(LocalizationHTML.class);
+	final static Log log = LogFactory.getLog(LocalizationHTML.class);
 
-    @Override
-    public boolean localize() {
-        if (local == null) {
-            log.debug("Local can't null, error!");
-            return false;
-        }
-        if (!local.exists()) {
-            log.debug(
-                    (new StringBuilder("Create  parent director:")).append(local.getParentFile().getPath()).toString());
-            local.getParentFile().mkdirs();
-        }
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(local, true);
-            writer.write(str);
-            writer.write("\n");
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (writer != null)
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
+	@Override
+	public boolean localize() {
+		if (local == null) {
+			log.debug("Local can't null, error!");
+			return false;
+		}
+		if (!local.exists()) {
+			log.debug(
+					(new StringBuilder("Create  parent director:")).append(local.getParentFile().getPath()).toString());
+			local.getParentFile().mkdirs();
+		}
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(local, true);
+			writer.write(str);
+			writer.write("\n");
+			writer.flush();
+		} catch (IOException e) {
+			log.error(e);
+		} finally {
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    protected InputStream getInputStream() throws IOException {
-        if (str != null)
-            return new ByteArrayInputStream(str.getBytes());
-        else
-            return null;
-    }
+	@Override
+	protected InputStream getInputStream() throws IOException {
+		if (str != null)
+			return new ByteArrayInputStream(str.getBytes());
+		else
+			return null;
+	}
 
-    private String str;
-    private File local;
+	private String str;
+	private File local;
 
 }

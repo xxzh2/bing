@@ -31,7 +31,7 @@ public class Localization {
 		try {
 			srcUrl = new URL(url);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		initFile();
 	}
@@ -47,7 +47,7 @@ public class Localization {
 				log.debug(String.format("%s", local.getPath()));
 				local.createNewFile();
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 	}
@@ -71,24 +71,38 @@ public class Localization {
 
 			@Override
 			public void run() {
+				FileOutputStream fo = null;
+				InputStream in = null;
 				try {
-					FileOutputStream fo = new FileOutputStream(local);
-					InputStream in = getInputStream();
+					fo = new FileOutputStream(local);
+					in = getInputStream();
 					for (byte b[] = new byte[1]; in.read(b) > 0; fo.write(b))
 						;
 					fo.flush();
-					fo.close();
-					in.close();
+
 					local.createNewFile();
 					log.debug((new StringBuilder(String.valueOf(local.getPath()))).append(" \u521B\u5EFA!").toString());
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
+					log.error(e);
 				} catch (IOException e) {
-					e.printStackTrace();
+					log.error(e);
+				} finally {
+					try {
+						if (fo != null)
+							fo.close();
+					} catch (IOException e) {
+						log.error(e);
+					}
+					try {
+						if (in != null)
+							in.close();
+					} catch (IOException e) {
+						log.error(e);
+					}
 				}
 			}
 
-		}).run();
+		}).start();
 		return true;
 	}
 
@@ -101,7 +115,7 @@ public class Localization {
 
 	public boolean isValid() {
 		if (srcUrl != null) {
-			if (destPath != null || destPath.trim().length() != 0)
+			if (destPath != null && destPath.trim().length() != 0)
 				return true;
 			return local != null;
 		} else {
