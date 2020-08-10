@@ -56,17 +56,19 @@ public class HTMLDownloader extends Downloader {
 				.append(SEPARATOR).toString();
 		// current file name or path is not valid.
 		// then given the specified name.
-		if (pic.contains("*") || pic.contains(":") || pic.contains("/")) {
+		if (pic == null) {
+			return filePath.toString();
+		} else if (pic.contains("*") || pic.contains(":") || pic.contains("/")) {
 			String name = dateStr + ".html";
 			filePath.append(dateStr)//
 					.append(SEPARATOR)//
 					.append(name);
 		} else {
 			String name = "unnamed";
-			if (pic != null && pic.indexOf("/") > 0) {
+			if (pic.indexOf("/") > 0) {
 				String str[] = pic.split("/");
 				name = str[str.length - 1];
-			} else if (pic != null && pic.indexOf(".") < 0) {
+			} else if (pic.indexOf(".") < 0) {
 				name += ".html";
 			}
 			filePath.append(dateStr)//
@@ -123,7 +125,6 @@ public class HTMLDownloader extends Downloader {
 		}
 		String path = null;
 		try {
-			new URLDecoder();
 			path = URLDecoder.decode(basePath + this.getArchivedDirectory(pic), "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			log.error(e);

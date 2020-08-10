@@ -42,10 +42,15 @@ public class Localization {
 		if (local != null && !local.exists()) {
 			try {
 				if (!local.exists()) {
-					local.getParentFile().mkdirs();
+					if(!local.getParentFile().exists()) {
+						local.getParentFile().mkdirs();
+					}
+					if(local.createNewFile()) {
+						log.debug(String.format("Create Newfile: %s", local.getPath()));
+					}
 				}
 				log.debug(String.format("%s", local.getPath()));
-				local.createNewFile();
+				
 			} catch (IOException e) {
 				log.error(e);
 			}

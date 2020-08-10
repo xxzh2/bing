@@ -1,6 +1,7 @@
 package com.ginkgo.bing;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,8 +33,17 @@ public abstract class Downloader implements Duplicate {
 
 	public Properties load() throws IOException {
 		Properties prop = new Properties();
-		prop.load(this.getClass().getResourceAsStream("/conf.properties"));
-
+		InputStream ins = null;
+		try {
+			ins = this.getClass().getResourceAsStream("/conf.properties");
+			prop.load(ins);
+		} catch (Exception e) {
+			log.error(e);
+		} finally {
+			if (ins != null) {
+				ins.close();
+			}
+		}
 		for (Object key : prop.keySet()) {
 			String keyVal = prop.getProperty(key.toString());
 			if (keyVal.contains("$")) {
