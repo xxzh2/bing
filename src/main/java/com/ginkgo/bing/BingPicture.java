@@ -33,7 +33,7 @@ public class BingPicture {
 	 * Version: {@value #ver}
 	 */
 	static final double ver = 1.0;
-	private URL url;
+	private URL picUrl;
 	private String[] exts = new String[] { ".jpg", ".png" };
 
 	public BingPicture() {
@@ -45,15 +45,15 @@ public class BingPicture {
 
 	public void setUrl(String arg0) {
 		try {
-			this.url = new URL(arg0);
+			this.picUrl = new URL(arg0);
 		} catch (MalformedURLException e) {
 			log.error(e);
-			this.url = null;
+			this.picUrl = null;
 		}
 	}
 
 	public URL getUrl() {
-		return this.url;
+		return this.picUrl;
 	}
 
 	public void searchPathByTag(Document doc, String tagName) {
@@ -63,7 +63,7 @@ public class BingPicture {
 
 	private List<String> getPicByKey(String extendsKey) {
 		List<String> picPath = new ArrayList<String>();
-		PrasedDocument doc = new PrasedDocument(this.url);
+		PrasedDocument doc = new PrasedDocument(this.picUrl);
 		Elements elements = doc.getElementsByTag("script");
 		for (Iterator<?> iterator = elements.iterator(); iterator.hasNext();) {
 			Element e = (Element) iterator.next();

@@ -69,7 +69,7 @@ public class Localization {
 			return false;
 		}
 		if (!local.exists()) {
-			log.info(String.format("Create  parent director: %", local.getParentFile().getPath()));
+			log.info(String.format("Create  parent director: %s", local.getParentFile().getPath()));
 			local.getParentFile().mkdirs();
 		}
 		(new Thread() {
@@ -85,7 +85,9 @@ public class Localization {
 						;
 					fo.flush();
 
-					local.createNewFile();
+					if(local.createNewFile()) {
+						log.info("createNewFile");
+					}
 					log.debug((new StringBuilder(String.valueOf(local.getPath()))).append(" \u521B\u5EFA!").toString());
 				} catch (FileNotFoundException e) {
 					log.error(e);
