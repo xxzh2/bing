@@ -1,6 +1,7 @@
 package com.ginkgo.crawl.job;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +22,12 @@ public class FileJob implements Job {
 		String path = new File(FileJob.class.getResource("/").getFile()).getParentFile().getParent();
 		log.info(path);
 		Directory dir = new Directory(path);
-		JSONArray ja = dir.gen(new String[] { path });
+		JSONArray ja = null;
+		try {
+			ja = dir.gen(new String[] { path });
+		} catch (UnsupportedEncodingException e) {
+			log.error(e);
+		}
 		log.info(ja);
 	}
 
