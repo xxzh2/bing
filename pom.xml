@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>asparagus</groupId>
 			<artifactId>dir</artifactId>
-			<version>1.0.5</version>
+			<version>[1.0.0,2.0.0]</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
