@@ -175,17 +175,13 @@
 	<repositories>
 		<repository>
 			<id>central</id>
-			<!-- <url>https://repo.maven.apache.org/maven2</url> -->
 			<url>http://repo.tydic.hf/repository/internal/</url>
-			<!-- <url>http://192.168.88.128:8080/repository/internal/</url> -->
-			<!-- <url>https://maven.aliyun.com/repository/central</url> -->
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
-			<!-- <url>https://repo.maven.apache.org/maven2</url> -->
 			<url>http://repo.tydic.hf/repository/internal/</url>
 		</pluginRepository>
 	</pluginRepositories>

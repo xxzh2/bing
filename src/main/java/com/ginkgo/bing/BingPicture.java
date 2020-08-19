@@ -30,9 +30,9 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class BingPicture {
 	/**
-	 * Version: {@value #ver}
+	 * Version: {@value #VER}
 	 */
-	static final double ver = 1.0;
+	static final double VER = 1.0;
 	private URL picUrl;
 	private String[] exts = new String[] { ".jpg", ".png" };
 
@@ -57,8 +57,12 @@ public class BingPicture {
 	}
 
 	public void searchPathByTag(Document doc, String tagName) {
-		log.debug(doc.getElementsContainingText(".jpg").html());
+		log.debug(doc.getElementsContainingText(tagName).html());
 		log.debug("-->");
+	}
+	
+	public void searchPathByTag(Document doc) {
+		this.searchPathByTag(doc, ".jpg");
 	}
 
 	private List<String> getPicByKey(String extendsKey) {

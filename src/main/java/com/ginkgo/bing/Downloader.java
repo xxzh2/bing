@@ -48,7 +48,7 @@ public abstract class Downloader implements Duplicate {
 			String keyVal = prop.getProperty(key.toString());
 			if (keyVal.contains("$")) {
 				log.debug(keyVal);
-				Pattern p = Pattern.compile("\\$\\{[^\\{\\}]+\\}");
+				Pattern p = Pattern.compile("\\$\\{[^\\{\\}]{1,256}\\}");
 				log.debug(p.pattern());
 				Matcher matcher = p.matcher(keyVal);
 				if (matcher.find()) {
