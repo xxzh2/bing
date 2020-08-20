@@ -39,7 +39,7 @@ public class BingPicture {
 	public BingPicture() {
 	}
 
-	public BingPicture( String ... ext) {
+	public BingPicture(String... ext) {
 		exts = (String[]) ArrayUtils.addAll(exts, ext);
 	}
 
@@ -60,7 +60,7 @@ public class BingPicture {
 		log.debug(doc.getElementsContainingText(tagName).html());
 		log.debug("-->");
 	}
-	
+
 	public void searchPathByTag(Document doc) {
 		this.searchPathByTag(doc, ".jpg");
 	}
@@ -72,24 +72,29 @@ public class BingPicture {
 		for (Iterator<?> iterator = elements.iterator(); iterator.hasNext();) {
 			Element e = (Element) iterator.next();
 			if (e.html().contains(extendsKey)) {
-				String str = e.html();
-				// log.debug("sss: " + str);
-				String st[] = str.split(",");
-				String as[];
-				int j = (as = st).length;
-				for (int i = 0; i < j; i++) {
-					String s = as[i];
-					if (s.contains(extendsKey)) {
-						final String regexp = "[^\"';]*/[^\"';]*?" + extendsKey;
-						Pattern p = Pattern.compile(regexp);
-						Matcher m = p.matcher(s);
-						while (m.find()) {
-							String _s = m.group();
-							log.debug("FILE: " + _s);
-							if (_s.contains(extendsKey)) {
-								picPath.add(_s.replace("\\", ""));
-							}
-						}
+				picPath.addAll(getPicByKey(e, extendsKey));
+			}
+		}
+		return picPath;
+	}
+
+	private List<String> getPicByKey(Element e, String extendsKey) {
+		List<String> picPath = new ArrayList<String>();
+		String str = e.html();
+		String st[] = str.split(",");
+		String as[];
+		int j = (as = st).length;
+		for (int i = 0; i < j; i++) {
+			String s = as[i];
+			if (s.contains(extendsKey)) {
+				final String regexp = "[^\"';]*/[^\"';]*?" + extendsKey;
+				Pattern p = Pattern.compile(regexp);
+				Matcher m = p.matcher(s);
+				while (m.find()) {
+					String _s = m.group();
+					log.debug("FILE: " + _s);
+					if (_s.contains(extendsKey)) {
+						picPath.add(_s.replace("\\", ""));
 					}
 				}
 			}
@@ -98,7 +103,7 @@ public class BingPicture {
 	}
 
 	public Optional<URL[]> getPicRealPath() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		if (exts == null) {
 			log.warn("No ext is defined, then return.");
 			return Optional.ofNullable(null);
