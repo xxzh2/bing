@@ -17,7 +17,6 @@ public class CrawlJob implements Job {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("jbos start: " + (++count));
 
-		// System.setProperty("user.download","C:\\Users\\leovo\\Desktop\\新建文件夹\\");
 		NewsCrawl nc = new NewsCrawl();
 		// 设置URL
 		nc.setUrl("http://sports.sina.com.cn/csl/");

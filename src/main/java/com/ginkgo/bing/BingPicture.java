@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j;
 /**
  * Download Bing Background Image.
  * 
- * @version {@value #ver}
+ * @version {@value #VER}
  * @author Asparagus 2016-08-26
  *
  */
@@ -43,39 +43,18 @@ public class BingPicture {
 		exts = (String[]) ArrayUtils.addAll(exts, ext);
 	}
 
-	public void setUrl(String arg0) {
-		try {
-			this.picUrl = new URL(arg0);
-		} catch (MalformedURLException e) {
-			log.error(e);
-			this.picUrl = null;
-		}
-	}
-
-	public URL getUrl() {
-		return this.picUrl;
-	}
-
-	public void searchPathByTag(Document doc, String tagName) {
-		log.debug(doc.getElementsContainingText(tagName).html());
-		log.debug("-->");
-	}
-
-	public void searchPathByTag(Document doc) {
-		this.searchPathByTag(doc, ".jpg");
-	}
-
-	private List<String> getPicByKey(String extendsKey) {
-		List<String> picPath = new ArrayList<String>();
-		PrasedDocument doc = new PrasedDocument(this.picUrl);
-		Elements elements = doc.getElementsByTag("script");
-		for (Iterator<?> iterator = elements.iterator(); iterator.hasNext();) {
-			Element e = (Element) iterator.next();
-			if (e.html().contains(extendsKey)) {
-				picPath.addAll(getPicByKey(e, extendsKey));
+	public void download() {
+		Optional<URL[]> imgUrls = this.getPicRealPath();
+		imgUrls.ifPresent(urls -> {
+			for (URL u : urls) {
+				String pic = u.toString();
+				log.debug(String.format("Image URL: %s", pic));
+				String filePath = new ImageDownloader().getRealPath(pic);
+				log.debug("filePath->" + filePath);
+				Localization fc = new Localization(filePath, u);
+				fc.localize();
 			}
-		}
-		return picPath;
+		});
 	}
 
 	private List<String> getPicByKey(Element e, String extendsKey) {
@@ -97,6 +76,19 @@ public class BingPicture {
 						picPath.add(_s.replace("\\", ""));
 					}
 				}
+			}
+		}
+		return picPath;
+	}
+
+	private List<String> getPicByKey(String extendsKey) {
+		List<String> picPath = new ArrayList<String>();
+		PrasedDocument doc = new PrasedDocument(this.picUrl);
+		Elements elements = doc.getElementsByTag("script");
+		for (Iterator<?> iterator = elements.iterator(); iterator.hasNext();) {
+			Element e = (Element) iterator.next();
+			if (e.html().contains(extendsKey)) {
+				picPath.addAll(getPicByKey(e, extendsKey));
 			}
 		}
 		return picPath;
@@ -137,18 +129,25 @@ public class BingPicture {
 
 	}
 
-	public void download() {
-		Optional<URL[]> imgUrls = this.getPicRealPath();
-		imgUrls.ifPresent(urls -> {
-			for (URL u : urls) {
-				String pic = u.toString();
-				log.debug(String.format("Image URL: %s", pic));
-				String filePath = new ImageDownloader().getRealPath(pic);
-				log.debug("filePath->" + filePath);
-				Localization fc = new Localization(filePath, u);
-				fc.localize();
-			}
-		});
+	public URL getUrl() {
+		return this.picUrl;
+	}
+
+	public void searchPathByTag(Document doc) {
+		this.searchPathByTag(doc, ".jpg");
+	}
+
+	public void searchPathByTag(Document doc, String tagName) {
+		log.debug(doc.getElementsContainingText(tagName).html());
+	}
+
+	public void setUrl(String arg0) {
+		try {
+			this.picUrl = new URL(arg0);
+		} catch (MalformedURLException e) {
+			log.error(e);
+			this.picUrl = null;
+		}
 	}
 
 }

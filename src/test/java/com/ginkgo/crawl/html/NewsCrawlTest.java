@@ -1,20 +1,20 @@
-package com.ginkgo.crawl.test;
+package com.ginkgo.crawl.html;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.ginkgo.crawl.html.NewsCrawl;
+import org.junit.Test;
 
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class TestNews {
+public class NewsCrawlTest {
 
-	public static void main(String[] args) {
-
+	@Test
+	public void test() {
 		Properties prop = new Properties();
-		InputStream ins = TestNews.class.getResourceAsStream("/keywords.properties");
+		InputStream ins = NewsCrawlTest.class.getResourceAsStream("/keywords.properties");
 		try {
 			if (ins != null)
 				prop.load(ins);
@@ -36,7 +36,6 @@ public class TestNews {
 		int count = pic.download();
 
 		log.info(String.format("%d", count));
-
 	}
 
 }
