@@ -58,7 +58,7 @@ public class BingPicture {
 	}
 
 	private List<String> getPicByKey(Element e, String extendsKey) {
-		List<String> picPath = new ArrayList<String>();
+		List<String> picPath = new ArrayList<>();
 		String str = e.html();
 		String st[] = str.split(",");
 		String as[];
