@@ -15,11 +15,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.ginkgo.bing.HTMLDownloader;
 import com.ginkgo.crawl.sum.FixedList;
 import com.ginkgo.crawl.sum.Localization;
 import com.ginkgo.crawl.sum.LocalizationHTML;
 import com.ginkgo.crawl.sum.document.PrasedDocument;
+import com.ginkgo.jspider.HTMLDownloader;
 
 /**
  * News Crawl. 网络爬虫，抓取新闻
@@ -75,6 +75,7 @@ public class NewsCrawl {
 		log.debug("found keywords: " + dateStr0 + ", " + dateStr1 + ", " + key);
 		for (Iterator<Element> iterator = elements.iterator(); iterator.hasNext();) {
 			Element e = iterator.next();
+			log.debug(e.html());
 			if (e.html().contains(key) //
 					&& !e.html().contains("<img") //
 					&& e.outerHtml().contains("target")//

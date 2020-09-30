@@ -3,6 +3,8 @@ package com.ginkgo.bing;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ginkgo.jspider.BingPicture;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j

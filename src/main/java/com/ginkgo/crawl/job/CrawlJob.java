@@ -6,8 +6,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.ginkgo.bing.BingPicture;
 import com.ginkgo.crawl.html.NewsCrawl;
+import com.ginkgo.jspider.BingPicture;
 
 public class CrawlJob implements Job {
 	static final Log log = LogFactory.getLog(CrawlJob.class);
